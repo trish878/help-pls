@@ -44,7 +44,7 @@ public class RESTARTED extends LinearOpMode {
 
 
 
-
+        //rip
         waitForStart();
 
         while (opModeIsActive()) {
