@@ -53,6 +53,8 @@ public class servo_test extends OpMode {
         servo2.setPosition(servo2_pos);
         servo3.setPosition(servo3_pos);
         servo4.setPosition(servo4_pos);
+
+
         /*if (((hardware.vertSlideLeft.getCurrentPosition()-motor_pos)>10) && (motor_pos>hardware.vertSlideLeft.getCurrentPosition())){
             hardware.vertSlideLeft.setPower(constants.SLIDE_UP_POWER);
             hardware.vertSlideRight.setPower(constants.SLIDE_UP_POWER);
@@ -69,5 +71,6 @@ public class servo_test extends OpMode {
             hardware.vertSlideRight.setPower(0);
 
         }*/
+
     }
 }

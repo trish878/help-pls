@@ -59,10 +59,10 @@ public class WORLDSHARDWARE {
         //TODO: Outtake Servos
 
         outtakeArmLeft = hardwareMap.get(Servo.class, "rotateLeft");
-        outtakeArmLeft.setDirection(Servo.Direction.REVERSE);
+        outtakeArmLeft.setDirection(Servo.Direction.FORWARD);
 
         outtakeArmRight = hardwareMap.get(Servo.class, "rotateRight");
-        outtakeArmRight.setDirection(Servo.Direction.FORWARD);
+        outtakeArmRight.setDirection(Servo.Direction.REVERSE);
 
         outtakeArmWrist = hardwareMap.get(Servo.class, "rotateClaw");
         outtakeArmWrist.setDirection(Servo.Direction.FORWARD);

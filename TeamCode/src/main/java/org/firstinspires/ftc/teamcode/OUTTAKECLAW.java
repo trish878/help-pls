@@ -15,16 +15,24 @@ public class OUTTAKECLAW {
         this.hardware = hw;
     }
 
-    public void start() {
-        hardware.outtakeArmLeft.setPosition(constant.ROTATE_ARM_INTAKE_POS + constant.ROTATE_ARM_SHIFT);
-        hardware.outtakeArmRight.setPosition(constant.ROTATE_ARM_INTAKE_POS);
-        hardware.outtakeArmWrist.setPosition(constant.ROTATE_CLAW_INTAKE_POS);
+    public void intake() {
+        hardware.outtakeArmLeft.setPosition(0.25);
+        hardware.outtakeArmRight.setPosition(0.25);
+        hardware.outtakeArmWrist.setPosition(0.05);
     }
 
-    public void transfer() {
-        hardware.outtakeArmLeft.setPosition(constant.ROTATE_ARM_OUTTAKE_POS + constant.ROTATE_ARM_SHIFT);
-        hardware.outtakeArmRight.setPosition(constant.ROTATE_ARM_OUTTAKE_POS);
-        hardware.outtakeArmWrist.setPosition(constant.ROTATE_CLAW_OUTTAKE_POS);
+    public void outtake() {
+        hardware.outtakeArmLeft.setPosition(0.85);
+        hardware.outtakeArmRight.setPosition(0.85);
+        hardware.outtakeArmWrist.setPosition(0.6);
+    }
+
+    public void transfer(){
+        hardware.outtakeArmLeft.setPosition(1);
+        hardware.outtakeArmRight.setPosition(1);
+        hardware.outtakeArmWrist.setPosition(0.6);
+
+
     }
     public void out_close(){
         hardware.outtakeClaw.setPosition(constant.OUTTAKE_CLAW_CLOSE_POS);

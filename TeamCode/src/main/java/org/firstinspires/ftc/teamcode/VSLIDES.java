@@ -31,5 +31,17 @@ public class VSLIDES {
         hardware.vertSlideLeft.setPower(0);
     }
 
+    public void outtake_s3(){
+        hardware.vertSlideLeft.setTargetPosition(900);
+        hardware.vertSlideRight.setTargetPosition(900);
+
+        hardware.vertSlideLeft.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        hardware.vertSlideRight.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+        hardware.vertSlideLeft.setPower(1);
+        hardware.vertSlideRight.setPower(1);
+
+    }
+
 
 }

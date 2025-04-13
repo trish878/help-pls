@@ -18,8 +18,7 @@ public class TestMotor extends LinearOpMode {
 
         WORLDSHARDWARE hardware = new WORLDSHARDWARE(hardwareMap);
         WORLDSCONSTANTS constants = new WORLDSCONSTANTS();
-        hardware.vertSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Only reset left
-        hardware.vertSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         hardware.vertSlideLeft = hardwareMap.get(DcMotorEx.class, "vertSlideLeft");
         hardware.vertSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
 
