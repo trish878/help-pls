@@ -30,9 +30,14 @@ public class INTAKECLAW {
     public void pos3(double g2rsx){
         hardware.intakeHor.setPosition(constant.INTAKE_HOR_SHIFT_POS_SUB - g2rsx / 4);
         hardware.intakeVert.setPosition(constant.INTAKE_VERT_SHIFT_POS_DOWN);
-    }
 
-    public void in_close(){
+    }
+    public void pos4(double g2rsx) {
+        hardware.intakeHor.setPosition(constant.INTAKE_HOR_SHIFT_POS_HP - g2rsx / 4);
+        hardware.intakeVert.setPosition(constant.INTAKE_VERT_SHIFT_POS_HP);
+
+    }
+        public void in_close(){
         hardware.intakeClaw.setPosition(constant.INTAKE_CLAW_CLOSE_POS);
 
     }

@@ -33,7 +33,7 @@ public class WORLDSHARDWARE {
 
         //TODO: Slide Motors
         vertSlideLeft = hardwareMap.get(DcMotorEx.class, "vertSlideLeft");
-        vertSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        vertSlideLeft.setDirection(DcMotorSimple.Direction.FORWARD);
 
         vertSlideRight = hardwareMap.get(DcMotorEx.class, "vertSlideRight");
         vertSlideRight.setDirection(DcMotorSimple.Direction.FORWARD);

@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-
 @TeleOp
 public class RESTARTED extends LinearOpMode {
     //private Gamepad currentGamepad1;
@@ -69,7 +68,12 @@ public class RESTARTED extends LinearOpMode {
             } else if (currentGamepad1.right_trigger > 0.25) {
                 vslide.vslide_down();
 
-            } else if (!(currentGamepad1.right_trigger > 0.25) && !(currentGamepad1.left_trigger > 0.25)) {
+            }
+            // TODO: This is breaking  vslide.outtake_s3() below
+            // Each time you try to run vslide.outtake_s3(), this code is run a few ms later
+            // which stops the motors.
+            // I made a change inside the vslide.vzero() that should fix this.
+            else if (!(currentGamepad1.right_trigger > 0.25) && !(currentGamepad1.left_trigger > 0.25)) {
                 vslide.vzero();
             }
 
@@ -91,15 +95,15 @@ public class RESTARTED extends LinearOpMode {
             if (intake_claw == 0) {
                 intake.pos1();
             }
-            if (intake_claw == 1) {
+            else if (intake_claw == 1) {
                 intake.pos2(g2rsx);
             }
-            if (intake_claw == 2) {
+            else if (intake_claw == 2) {
                 intake.pos3(g2rsx);
             }
-            if (intake_claw == 3)
+            else if (intake_claw == 3) {
                 intake_claw = 0;
-
+            }
 
             if (currentGamepad1.left_bumper && !previousGamepad1.left_bumper) {
                 left_toggle += 1;
@@ -109,18 +113,24 @@ public class RESTARTED extends LinearOpMode {
             }
 
             else if (left_toggle == 1) {
-                outtake.outtake();
+                if (hardware.vertSlideLeft.getCurrentPosition()!=900){
+                    //vslide.outtake_s3();
+                }
+                else{
+                    vslide.vzero_test();
+                }
+
             }
             else if (left_toggle == 2) {
-                vslide.outtake_s3();
+                outtake.outtake();
+
             }
             else if (left_toggle == 3) {
                 outtake.transfer();
             }
-
-
-            else if (left_toggle == 4)
+            else if (left_toggle == 4) {
                 left_toggle = 0;
+            }
 
 
             currentGamepad1 = gamepad1;
@@ -131,7 +141,6 @@ public class RESTARTED extends LinearOpMode {
 
     }//ENCODER FOR
 }
-
 
 
 

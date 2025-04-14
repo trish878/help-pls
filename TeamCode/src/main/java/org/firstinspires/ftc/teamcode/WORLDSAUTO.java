@@ -27,15 +27,19 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 public class WORLDSAUTO extends LinearOpMode {
 
     public class VertSlides {
-        private DcMotorEx vertSlideLeft, vertSlideRight;
+        public DcMotorEx vertSlideLeft, vertSlideRight;
 
         public VertSlides(HardwareMap hardwareMap) {
             vertSlideLeft = hardwareMap.get(DcMotorEx.class, "vertSlideLeft");
             vertSlideLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
             vertSlideRight = hardwareMap.get(DcMotorEx.class, "vertSlideRight");
-            vertSlideRight.setDirection(DcMotorSimple.Direction.FORWARD);
+            vertSlideRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
+            // TODO: I would do the right motor too.  Even if you are not reading
+            // it, the RUN_USING_ENCODER mode runs at constant velocity, while
+            // RUN_WITHOUT_ENCODER does not.  So your slide powers/speeds are
+            // not going to match.
             vertSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // Only reset left
             vertSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -43,13 +47,14 @@ public class WORLDSAUTO extends LinearOpMode {
 
         public class LiftUp implements Action {
             private boolean initialized = false;
+            // TODO: This should be global, you don't need a separate instance for each class
             WORLDSCONSTANTS constants = new WORLDSCONSTANTS();
 
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 if (!initialized) {
-                    vertSlideLeft.setPower(0.8);
-                    vertSlideRight.setPower(0.8);
+                    vertSlideLeft.setPower(1);
+                    vertSlideRight.setPower(1);
                     initialized = true;
                 }
                 telemetryPacket.put("pos", vertSlideLeft.getCurrentPosition());
@@ -58,7 +63,9 @@ public class WORLDSAUTO extends LinearOpMode {
                     return true;
                 } else {
                     vertSlideLeft.setPower(0.075);
-                    //vertSlideRight.setPower(0.075);
+                    // TODO: This shouldn't be commented out.
+                    // TODO: Also, isn't there a constant for 0.075
+                    vertSlideRight.setPower(0.075);
                     return false;
                 }
             }
@@ -106,7 +113,12 @@ public class WORLDSAUTO extends LinearOpMode {
                 }
                 telemetryPacket.put("pos", vertSlideLeft.getCurrentPosition());
 
-                if (vertSlideLeft.getCurrentPosition() > 0) {
+                // TODO: This is tricky, sometimes a mechanical issue or drift will
+                // prevent the slide from being able to go all the way down.
+                // The solution is to include a little tolerance, and if you
+                // want, use a time to run the motors for a tiny bit longer
+                // to make sure they are down as far as possible.
+                if (Math.abs(vertSlideLeft.getCurrentPosition())<10) {
                     return true;
                 } else {
                     vertSlideLeft.setPower(0);
@@ -128,6 +140,8 @@ public class WORLDSAUTO extends LinearOpMode {
         DcMotorEx horSlide;
 
         public HorSlides(HardwareMap hardwareMap) {
+            // TODO: This could mess things up.  You don't want horSlide running the
+            // vertSlideLeft motor, do you???
             horSlide = hardwareMap.get(DcMotorEx.class, "vertSlideLeft");
         }
 
@@ -243,8 +257,8 @@ public class WORLDSAUTO extends LinearOpMode {
                 )
         );
 
-        vertSlides.vertSlideLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        vertSlides.vertSlideLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // TODO: This is redundant.  It was already run when you run new VertSlides(hardwareMap).
+
         //TODO: PATHS
 
         // Goes to the Submursible from Start
@@ -295,7 +309,7 @@ public class WORLDSAUTO extends LinearOpMode {
                         new SequentialAction(
                                 vertSlides.liftUp(),
 
-                                //Path1.build(),
+                                Path1.build(),
                                 // Goes to Submursible to place the first specimen
 
                                 new ParallelAction(
@@ -310,26 +324,27 @@ public class WORLDSAUTO extends LinearOpMode {
                                 vertSlides.liftDown(),
                                 outtakeArm.intakePos(),
 
-                                //Path2.build(),
+                                Path2.build(),
 
                                 outtakeClaw.closeClaw(),
                                 outtakeArm.OuttakePos(),
                                 new ParallelAction(
-                                        vertSlides.liftUp()
-                                        //Path3.build()
+                                        vertSlides.liftUp(),
+                                        Path3.build()
                                 ),
                                 vertSlides.liftPlaceDown(),
                                 outtakeClaw.openClaw(),
                                 vertSlides.liftDown(),
                                 outtakeArm.intakePos(),
 
-                                //Path4.build(),
+                                Path4.build(),
 
                                 outtakeClaw.closeClaw(),
                                 new ParallelAction(
                                         vertSlides.liftUp(),
-                                        outtakeArm.OuttakePos()
-                                        //Path5.build()
+                                        outtakeArm.OuttakePos(),
+
+                                        Path5.build()
                                 ),
                                 vertSlides.liftPlaceDown(),
                                 outtakeClaw.openClaw(),
@@ -341,11 +356,17 @@ public class WORLDSAUTO extends LinearOpMode {
 
                         ),
 
+                        // TODO: I don't think this needs to be a parallel action,
+                        // you could run this once at the very start, then it should
+                        // stay in the whole time.  Rather than running it over and over.
                         horSlides.holdIn()
                 )
         );
 
 
-        while (opModeIsActive()) {}
+        while (opModeIsActive()) {
+            telemetry.addData("vals", vertSlides.vertSlideLeft.getCurrentPosition());
+            telemetry.update();
+        }
     }
 }
