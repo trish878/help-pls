@@ -20,7 +20,7 @@ public class FSM extends LinearOpMode {
     int intakeClawState = 0;
     int outtakeToggle = 0;
 
-    boolean intakeRight = false;
+    boolean intakeRight = true;
 
     Gamepad currentGamepad1, currentGamepad2;
     Gamepad previousGamepad1 = new Gamepad();
