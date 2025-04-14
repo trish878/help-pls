@@ -127,15 +127,15 @@ public class FSM extends LinearOpMode {
             }
 
             if (currentGamepad2.dpad_right && !previousGamepad2.dpad_right) {
-                if (intakeRight){}
-                intake.pos4(g2rsx);
-                intakeRight= !intakeRight;
-                if (!intakeRight){}
-                intake.pos1();
                 intakeRight = !intakeRight;
 
 
             }
+
+            if (intakeRight) intake.pos1();
+            else intake.pos4(g2rsx);
+
+
 
             if (currentGamepad1.left_bumper && !previousGamepad1.left_bumper) {
                 outtakeToggle = outtakeToggle+1;
